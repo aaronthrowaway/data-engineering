@@ -16,7 +16,6 @@ end
 
 group :test, :development do
 	gem 'rspec-rails'
-  gem 'factory_girl_rails'
   gem 'cucumber-rails', :require => false
   gem 'database_cleaner'
   gem 'guard-rspec'
