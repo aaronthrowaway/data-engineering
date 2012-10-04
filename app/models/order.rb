@@ -1,5 +1,8 @@
 class Order < ActiveRecord::Base
-  attr_accessible :quantity, :item_id, :purchaser_id, :upload_id
+  attr_accessible :quantity, 
+  								:item_id, 
+  								:purchaser_id, 
+  								:upload_id
 
   validates_presence_of :quantity
 	validates_presence_of :upload_id

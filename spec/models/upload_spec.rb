@@ -28,19 +28,19 @@ describe Upload do
 				Upload.count.should == 1
 			end
 
-			it 'create valid customers' do
-				# customers = Customer.all
-				# customers.size.should == 3
-				# customers.first.name.should == "Snake Plissken"
+			it 'create valid purchasers' do
+				purchasers = Purchaser.all
+				purchasers.size.should == 3
+				purchasers.first.name.should == "Snake Plissken"
 			end
 
 			it 'created necessary items' do
-				# items = Item.all
-				# items.size.should == 3
-				# items.first.description.should == "$10 off $20 of food"
-				# items.first.price.should == 10
-				# items.last.description.should == "$20 Sneakers for $5"
-				# items.last.price.should == 5
+				items = Item.all
+				items.size.should == 3
+				items.first.description.should == "$10 off $20 of food"
+				items.first.price.should == 10
+				items.last.description.should == "$20 Sneakers for $5"
+				items.last.price.should == 5
 			end
 
 			it 'adds new order data' do
@@ -73,8 +73,8 @@ describe Upload do
 
 			it "should not have saved any other data" do
 			 	Merchant.count.should == 0
-				# Item.count.should == 0
-				# Customer.count.should == 0
+				Item.count.should == 0
+				Purchaser.count.should == 0
 				Order.count.should == 0
 			end
 		end
@@ -91,9 +91,9 @@ describe Upload do
 
 			it "should not have saved any other data" do
 				Merchant.count.should == 0
-				# Item.count.should == 0
-				# Customer.count.should == 0
-				 Order.count.should == 0
+				Item.count.should == 0
+				Purchaser.count.should == 0
+				Order.count.should == 0
 			end
 		end
 
@@ -110,15 +110,15 @@ describe Upload do
 			end
 
 			it "duplicate purchasers aren't created if they have the same name" do
-				# Customer.count.should == 3
+				Purchaser.count.should == 3
 				@upload.process
-				# Customer.count.should == 3
+				Purchaser.count.should == 3
 			end
 
 			it "duplicate items aren't created if they have the same name/merchant" do
-				# Item.count.should == 3
+				Item.count.should == 3
 				@upload.process
-				# Item.count.should == 3
+				Item.count.should == 3
 			end
 		end
 	end

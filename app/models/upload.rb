@@ -29,14 +29,10 @@ class Upload < ActiveRecord::Base
         :col_sep => "\t",      
         :header_converters => :symbol,
       ).each do |row|
-        m = Merchant.find_or_create_by_name_and_address!(name: row[:merchant_name], address: row[:merchant_address])
-
-        # purchaser = Purchaser.find_or_create_by_name!(name: row[:purchaser_name])
-        # item = Item.find_or_create_by_description_and_merchant_id!(description: row[:item_description], price: row[:item_price], merchant: merchant)
-        # Order.create!(count: row[:purchase_count], purchaser_id: purchaser.id, item_id: item.id, upload_id: id)
-
-        ##has an item and purchaser still awating
-        Order.create!(quantity: row[:purchase_count], upload_id: id, item_id: 0, purchaser_id: 0)
+        merch = Merchant.find_or_create_by_name_and_address!(name: row[:merchant_name], address: row[:merchant_address])
+        buyer = Purchaser.find_or_create_by_name!(name: row[:purchaser_name])
+        item = Item.find_or_create_by_description_and_merchant_id!(description: row[:item_description], price: row[:item_price], merchant_id: merch.id)
+        Order.create!(quantity: row[:purchase_count], upload_id: id, item_id: item.id, purchaser_id: buyer.id)
       end
     end   
   end
