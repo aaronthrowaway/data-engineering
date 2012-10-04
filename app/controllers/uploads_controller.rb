@@ -1,4 +1,5 @@
 class UploadsController < ApplicationController
+
   def index
     @uploads = Upload.all
 
@@ -8,9 +9,16 @@ class UploadsController < ApplicationController
     end
   end
 
+  def new
+    @upload = Upload.new
+  end
+
+  def show
+    @upload = Upload.find_by_id(params[:id])
+  end
+
   def create
     @upload = Upload.new(params[:upload])
-
     respond_to do |format|
       if @upload.process
         format.html { redirect_to @upload, notice: 'Upload was successfully created.' }

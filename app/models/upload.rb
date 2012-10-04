@@ -1,10 +1,13 @@
 require 'csv'
 class Upload < ActiveRecord::Base
-  attr_accessible :content, :filename, :file
-  attr_accessor :file
+  attr_accessible :content, 
+                  :filename, 
+                  :file
 
-  validates :filename, :presence => true
-  validates :content, :presence => true
+ 	attr_accessor   :file
+
+  validates_presence_of :filename
+  validates_presence_of :content
   validate :verify_file_format
 
   def load
@@ -17,15 +20,19 @@ class Upload < ActiveRecord::Base
   def process
     load
     return false unless save
+    
+    Upload.transaction do #wrap in transaction
       CSV.parse(content, 
         :headers => true,
         :col_sep => "\t",      
         :header_converters => :symbol,
       ).each do |row|
       end
+    end   
   end
 
   def revenue
+    10.00
   end
 
   def verify_file_format
@@ -34,8 +41,7 @@ class Upload < ActiveRecord::Base
     header = content.split("\n").first
     headers = header.split("\t")
     unless (headers & ["purchaser name", "item description", "item price", "purchase count", "merchant address", "merchant name"]).count == 6
-      #check for array intersection for required headers. if intersection is not all 6 headers, something is invalid
-      errors.add(:content, "#{filename} has invalid/missing/too many headers.")
+      errors.add(:content, "#{filename} invalid .tab format")
     end
   end
 end
