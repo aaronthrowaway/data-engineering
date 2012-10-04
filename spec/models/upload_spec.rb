@@ -43,20 +43,20 @@ describe Upload do
 				# items.last.price.should == 5
 			end
 
-			it 'adds new purchase data' do
-				# purchases = Purchase.all
-				# purchases.size.should == 4
-				# purchases.first.count.should == 2
-				# purchases.first.item_id.should_not be_nil
-				# purchases.first.customer_id.should_not be_nil
-				# purchases.first.Upload_id.should_not be_nil
+			it 'adds new order data' do
+				orders = Order.all
+				orders.size.should == 4
+				orders.first.quantity.should == 2
+				orders.first.item_id.should_not be_nil
+				orders.first.purchaser_id.should_not be_nil
+				orders.first.upload_id.should_not be_nil
 			end
 
 			it 'creates required merchants' do
-				# merchants = Merchant.all
-				# merchants.size.should == 3
-				# merchants.first.address.should == "987 Fake St"
-				# merchants.first.name.should == "Bob's Pizza"
+				merchants = Merchant.all
+				merchants.size.should == 3
+				merchants.first.address.should == "987 Fake St"
+				merchants.first.name.should == "Bob's Pizza"
 			end
 			
 		end
@@ -72,10 +72,10 @@ describe Upload do
 			end
 
 			it "should not have saved any other data" do
-				# Merchant.count.should == 0
+			 	Merchant.count.should == 0
 				# Item.count.should == 0
 				# Customer.count.should == 0
-				# Purchase.count.should == 0
+				Order.count.should == 0
 			end
 		end
 
@@ -90,10 +90,10 @@ describe Upload do
 			end
 
 			it "should not have saved any other data" do
-				# Merchant.count.should == 0
+				Merchant.count.should == 0
 				# Item.count.should == 0
 				# Customer.count.should == 0
-				# Purchase.count.should == 0
+				 Order.count.should == 0
 			end
 		end
 
@@ -103,43 +103,43 @@ describe Upload do
 				@upload.process
 			end
 
-			it "duplicate merchants aren't created if they have the same name" do
-				# Merchant.count.should == 3
-				# @Upload.Upload
-				# Merchant.count.should == 3
+			it "duplicate merchants aren't created" do
+				Merchant.count.should == 3
+				@upload.process
+				Merchant.count.should == 3
 			end
 
-			it "duplicate customers aren't created if they have the same name" do
+			it "duplicate purchasers aren't created if they have the same name" do
 				# Customer.count.should == 3
-				# @Upload.Upload
+				@upload.process
 				# Customer.count.should == 3
 			end
 
 			it "duplicate items aren't created if they have the same name/merchant" do
 				# Item.count.should == 3
-				# @Upload.Upload
+				@upload.process
 				# Item.count.should == 3
 			end
 		end
 	end
 
-	describe 'test revenue calculation:' do
-		it 'calculate correct revenue by adding up all purchase costs' do
-			# @Upload = Upload.new(filename: 'example_input.tab', content: IO.read(Rails.root.join('spec', 'fixtures', 'example_input.tab')))
-			# @Upload.process
-			# @Upload.total_price.should == 95.0
+	describe 'test revenue' do
+		it 'calculate correct revenues' do
+			@upload = Upload.new(filename: 'example_input.tab', content: IO.read(Rails.root.join('spec', 'fixtures', 'example_input.tab')))
+			@upload.process
+			@upload.revenue.should == 95.0
 		end
 
-		# it 'finds 0 when there are no items present' do
-		# 	@Upload = Upload.new(filename: 'valid_empty_file.tab', content: IO.read(Rails.root.join('spec', 'fixtures', 'empty_file.tab')))
-		# 	@Upload.Upload
-		# 	@Upload.total_price.should == 0
-		# end
+		it '0 when there are no items present' do
+			@upload = Upload.new(filename: 'valid_empty_file.tab', content: IO.read(Rails.root.join('spec', 'fixtures', 'empty_file.tab')))
+			@upload.process
+			@upload.revenue.should == 0
+		end
 
-		# it 'should return 0 for malformed file' do
-		# 	@Upload = Upload.new(filename: 'badinput.tab', content: IO.read(Rails.root.join('spec', 'fixtures', 'badinput.tab')))
-		# 	@Upload.Upload
-		# 	@Upload.total_price.should == 0
-		# end
+		it '0 for malformed file' do
+			@upload = Upload.new(filename: 'badinput.tab', content: IO.read(Rails.root.join('spec', 'fixtures', 'badinput.tab')))
+			@upload.process
+			@upload.revenue.should == 0
+		end
 	end
 end
