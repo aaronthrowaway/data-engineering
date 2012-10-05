@@ -1,4 +1,5 @@
 class UploadsController < ApplicationController
+  before_filter :authenticate_user!, :only => [:new, :create, :delete]
 
   def index
     @uploads = Upload.all
