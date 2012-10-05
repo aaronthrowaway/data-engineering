@@ -1,7 +1,7 @@
-<%= form_for(@upload) do |f| %>
+<%= form_for @upload, :html => { :class => 'form-horizontal' } do |f| %>
   <% if @upload.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@upload.errors.count, "error") %> prohibited this upload from being saved:</h2>
+    <div class="alert alert-error">
+      <h5><%= pluralize(@upload.errors.count, "error") %> prohibited this upload from being saved:</h5>
 
       <ul>
       <% @upload.errors.full_messages.each do |msg| %>
@@ -9,19 +9,28 @@
       <% end %>
       </ul>
     </div>
-  <% end %>
+<% end %>    
 
-  <div class="field">
-    <%= f.label :revenue %>:
-    <%= @upload.revenue %>
-
+  <div class="control-group">
+    <%= f.file_field :file, :style => "display:none", :id => "realfile" %>
+    <div class="input-append">
+    <input id="filename" class="input-large" type="text">
+    <a class="btn" onclick="$('input[id=realfile]').click();">
+      Browse
+    </a>
+    </div>
   </div>
 
-  <div class="field">
-    <%= f.file_field :file %>
-  </div>  
-
-  <div class="actions">
-    <%= f.submit %>
+  <div class="form-actions">
+    <%= f.submit nil, :class => 'btn btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                uploads_path, :class => 'btn' %>
   </div>
 <% end %>
+
+<script type="text/javascript">
+  $('input[id=realfile]').change(function() {
+    console.log("here")
+     $('#filename').val($(this).val());
+  }); 
+</script>
