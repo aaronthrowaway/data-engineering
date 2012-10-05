@@ -27,9 +27,10 @@
 						</li>
 					<% else %>
 						<li>
-							<%= link_to "Sign In", new_session_path(:user) %>
+							<%= link_to "Log in or Sign up ", new_session_path(:user) %>
+						</li>
 						<li>
-							<%= link_to "Sign In With Google", omniauth_authorize_path(:user, :google) %>
+							<%= link_to "Log in with Gmail®", omniauth_authorize_path(:user, :google) %>
 						</li>
 					<% end %>
         </ul>
