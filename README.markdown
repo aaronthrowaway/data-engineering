@@ -12,3 +12,6 @@
 1.  `$ rake db:test:prepare`
 1.  `$ rake spec`
 1.  are all the tests green? continue, else submit a ticket
+1.  `$ rails s`
+1.  `$ open localhost:3000`
+1.  you are required to login to submit new uploads.
